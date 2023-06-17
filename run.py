@@ -20,7 +20,20 @@ def random_size(size):
     return randint(0, size - 1)
 
 def new_game():
-    pass
+    
+    size = 5
+    num_of_ships = 4
+    scores["computer"] = 0
+    scores["player"] = 0
+    # print("Welcome! Les play!\n")
+    # player_name = input("Enter your name: \n")
+
+    computer_board = Board(size, "Computer", num_of_ships, "computer")
+    player_board = Board(size, "player", num_of_ships, "player")
+
+
+
+    # play_game(player_board, computer_board)
 
 def play_game(player, computer):
     pass
@@ -34,3 +47,4 @@ def make_guess():
 def validate_coordinates(x, y):
     pass
 
+new_game()
