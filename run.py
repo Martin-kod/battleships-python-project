@@ -20,7 +20,7 @@ def random_size(size):
     return randint(0, size - 1)
 
 def new_game():
-    
+
     size = 5
     num_of_ships = 4
     scores["computer"] = 0
@@ -31,6 +31,8 @@ def new_game():
     computer_board = Board(size, "Computer", num_of_ships, "computer")
     player_board = Board(size, "player", num_of_ships, "player")
 
+    populate_board(computer_board)
+    populate_board(player_board)
 
 
     # play_game(player_board, computer_board)
@@ -39,7 +41,24 @@ def play_game(player, computer):
     pass
 
 def populate_board(board):
-    pass
+    ship_coordinates = []
+    
+    while len(ship_coordinates) < board.num_of_ships:
+        try:
+            x = random_size(board.size)
+            y = random_size(board.size)
+            for i in range(len(ship_coordinates)):
+                if ship_coordinates[i] == [x, y]:
+                    raise StopIteration
+        except StopIteration:
+            continue
+        ship_coordinates.append([x, y])
+    
+    
+    
+        
+    
+
 
 def make_guess():
     pass
@@ -47,4 +66,9 @@ def make_guess():
 def validate_coordinates(x, y):
     pass
 
+
+    
+
 new_game()
+
+
