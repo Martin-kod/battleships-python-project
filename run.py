@@ -41,18 +41,20 @@ def play_game(player, computer):
     pass
 
 def populate_board(board):
-    ship_coordinates = []
     
-    while len(ship_coordinates) < board.num_of_ships:
+    
+    while len(board.ships) < board.num_of_ships:
         try:
             x = random_size(board.size)
             y = random_size(board.size)
-            for i in range(len(ship_coordinates)):
-                if ship_coordinates[i] == [x, y]:
+            for i in range(len(board.ships)):
+                if board.ships[i] == [x, y]:
                     raise StopIteration
         except StopIteration:
             continue
-        ship_coordinates.append([x, y])
+        board.ships.append([x, y])
+    
+    print(board.ships)
     
     
     
