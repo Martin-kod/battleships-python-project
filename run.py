@@ -35,13 +35,20 @@ def new_game():
     populate_board(player_board)
 
 
-    # play_game(player_board, computer_board)
+    play_game(player_board, computer_board)
 
 def play_game(player, computer):
-    pass
+    
+    for i in player.ships:
+        player.board[i[0]][i[1]] = "@"
+        
+    for x in player.board:
+        print(*x, sep=" ")
+        
+    
+    
 
 def populate_board(board):
-    
     
     while len(board.ships) < board.num_of_ships:
         try:
@@ -53,8 +60,6 @@ def populate_board(board):
         except StopIteration:
             continue
         board.ships.append([x, y])
-    
-    print(board.ships)
     
     
     
