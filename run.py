@@ -50,15 +50,18 @@ def play_game(player_board, computer_board):
 
     print("\n")
 
-    guess_validation = False
-    while guess_validation == False:
-
+    player_guess_validation = False
+    while player_guess_validation == False:
         player_guess = make_guess(player_board)
         x, y = player_guess
-        guess_validation = validate_coordinates(x, y, player_board)
+        player_guess_validation = validate_coordinates(x, y, player_board)
     
-    print("You made a correct guess!")
-    make_guess(computer_board)
+    computer_guess_validation = False
+    while computer_guess_validation == False:
+        computer_guess = make_guess(computer_board)
+        x, y = computer_guess
+        computer_guess_validation = validate_coordinates(x, y, computer_board)
+    
     
 
 def populate_board(board):
@@ -75,47 +78,60 @@ def populate_board(board):
         board.ships.append([x, y])
     
 
-
 def make_guess(board):
+
     if board.type == "player":
         y = input('Guess row\n')
         x = input('Guess column\n')
         return (x, y)
     else:
         pass
-    # if board.type == "computer":
-    #     x = random_size(board.size)
-    #     y = random_size(board.size)
-        
-    # else:
-    #     pass
+
+    if board.type == "computer":
+        x = random_size(board.size)
+        y = random_size(board.size)
+        return (x, y)
+    else:
+        pass
+
 
 def validate_coordinates(x, y, board):
-    try:
-        int_x = int(x)
-        int_y = int(y)
-    except:
-        print("Value has to be a number!")
-        return False
-    try:
-        if int_x >= board.size or int_y >= board.size:
-            raise ValueError(
-                "Too much! Values can't be larger than 4!"
-            )
-    except ValueError as e:
-        print(e)
-        return False
-    try:
-        for i in range(len(board.guesses)):
-                if board.guesses[i] == [int_x, int_y]:
-                    raise ValueError
-    except ValueError:
-        print("Cannot guess the same coordinates twice!")
-        return False
     
-    return True
+    if board.type == "player":
+        try:
+            int_x = int(x)
+            int_y = int(y)
+        except:
+            print("Value has to be a number!")
+            return False
+        try:
+            if int_x >= board.size or int_y >= board.size:
+                raise ValueError(
+                    "Too much! Values can't be larger than 4!"
+                )
+        except ValueError as e:
+            print(e)
+            return False
+        try:
+            for i in range(len(board.guesses)):
+                    if board.guesses[i] == [int_x, int_y]:
+                        raise ValueError
+        except ValueError:
+            print("Cannot guess the same coordinates twice!")
+            return False
+        
+        return True
+    else:
+        pass
 
-    
+    if board.type == "computer":
+        try:
+            for i in range(len(board.guesses)):
+                    if board.guesses[i] == [int_x, int_y]:
+                        raise ValueError
+        except ValueError:
+            return False
+        return True
 
 new_game()
 
