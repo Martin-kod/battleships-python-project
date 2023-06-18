@@ -25,11 +25,15 @@ def new_game():
     num_of_ships = 4
     scores["computer"] = 0
     scores["player"] = 0
-    # print("Welcome! Les play!\n")
-    # player_name = input("Enter your name: \n")
+    print("-" * 35)
+    print("Welcome! Let's play some Battleships!!\n")
+    print("Board size: 5. Number of ships: 4")
+    print("Top left corner is row: 0, col: 0")
+    print("-" * 35)
+    player_name = input("Enter your name: \n")
 
     computer_board = Board(size, "Computer", num_of_ships, "computer")
-    player_board = Board(size, "player", num_of_ships, "player")
+    player_board = Board(size, player_name, num_of_ships, "player")
 
     populate_board(computer_board)
     populate_board(player_board)
@@ -39,61 +43,101 @@ def new_game():
 
 def play_game(player_board, computer_board):
     
-    for i in player_board.ships:
-        player_board.board[i[0]][i[1]] = "@"
+    play_again = True
+    while play_again:
+
+        for i in player_board.guesses:
+            computer_board.board[i[0]][i[1]] = "X"
+
+        for i in player_board.ships:
+            player_board.board[i[0]][i[1]] = "@"
+
+        for i in computer_board.guesses:
+            player_board.board[i[0]][i[1]] = "X"
+
+        # for i in computer_board.guesses:
+        #     if 
+        #     player_board.ships[i[0]][i[1]] = "*"
+
+        # for i in player_board.guesses:
+        #     computer_board.board[i[0]][i[1]] = "*"
+            
+        for i in player_board.board:
+            print(*i, sep=" ")
+
+        print("-" * 35)
+
+        for i in computer_board.board:
+            print(*i, sep=" ")
+
+        print("\n")
+
+        player_guess_validation = False
+        while player_guess_validation == False:
+            player_guess = make_guess(player_board)
+            x, y = player_guess
+            player_guess_validation = validate_coordinates(x, y, player_board)
+        player_board.guesses.append([int(x), int(y)])
+
+        computer_guess_validation = False
+        while computer_guess_validation == False:
+            computer_guess = make_guess(computer_board)
+            x, y = computer_guess
+            computer_guess_validation = validate_coordinates(x, y, computer_board)
+        computer_board.guesses.append([x, y])
+
+        player_score = False
+        print(f"You guessed: {player_board.guesses[-1]}")
+        for i in range(len(computer_board.ships)):
+            if computer_board.ships[i] == player_board.guesses[-1]:
+                scores["player"] += 1
+                print(f"You hit one of the computer's battleships!")
+                player_score = True
+
+        if player_score == False:
+            print("You missed.")
         
-    for i in player_board.board:
-        print(*i, sep=" ")
+        computer_score = False
+        print(f"Computer guessed: {computer_board.guesses[-1]}")
+        for i in range(len(player_board.ships)):
+            if player_board.ships[i] == computer_board.guesses[-1]:
+                scores["computer"] += 1
+                print(f"Computer hit one of your battleships!")
+                computer_score = True
 
-    print("-" * 35)
+        if computer_score == False:
+            print("Computer missed.")
 
-    for i in computer_board.board:
-        print(*i, sep=" ")
+        print("-" * 35)
+        print("The scores are:")
+        print(f"{player_board.name}: {scores['player']}, Computer: {scores['computer']}")
+        print("-" * 35)
+        
+        play_again = False
+        while play_again == False:
+            key_for_continue = input("Do you want to play another round? y/n")
 
-    print("\n")
+            try:
+                if key_for_continue == "n":
+                    quit_game = True
+                    break
+                elif key_for_continue == "y":
+                    quit_game = False
+                    play_again = True
+            except:
+                print("That was not one of the options!")
 
-    player_guess_validation = False
-    while player_guess_validation == False:
-        player_guess = make_guess(player_board)
-        x, y = player_guess
-        player_guess_validation = validate_coordinates(x, y, player_board)
-    player_board.guesses.append([int(x), int(y)])
+        if scores["computer"] > 3:
+            print("Sorry, you lost")
+            quit_game = True
+        
+        if scores["player"] > 3:
+            print("Congratulations! You won!!")
+            quit_game = True
 
-    computer_guess_validation = False
-    while computer_guess_validation == False:
-        computer_guess = make_guess(computer_board)
-        x, y = computer_guess
-        computer_guess_validation = validate_coordinates(x, y, computer_board)
-    computer_board.guesses.append([x, y])
-
-    player_score = False
-    print(f"You guessed: {player_board.guesses[-1]}")
-    for i in range(len(computer_board.ships)):
-        if computer_board.ships[i] == player_board.guesses[-1]:
-            scores["player"] += 1
-            print(f"You hit one of the computer's battleships!")
-            player_score = True
-
-    if player_score == False:
-        print("You missed.")
-    
-    computer_score = False
-    print(f"Computer guessed: {computer_board.guesses[-1]}")
-    for i in range(len(player_board.ships)):
-        if player_board.ships[i] == computer_board.guesses[-1]:
-            scores["computer"] += 1
-            print(f"Computer hit one of your battleships!")
-            computer_score = True
-
-    if computer_score == False:
-        print("Computer missed.")
-
-    print("-" * 35)
-    print("The scores are:")
-    print(f"{player_board.name}: {scores['player']}, Computer: {scores['computer']}")
-    print("-" * 35)
-    
-
+        if quit_game == True:
+            print("Thanks for playing!")
+            break
 
 def populate_board(board):
     
@@ -154,7 +198,7 @@ def validate_coordinates(x, y, board):
     if board.type == "computer":
         try:
             for i in range(len(board.guesses)):
-                    if board.guesses[i] == [int_x, int_y]:
+                    if board.guesses[i] == [x, y]:
                         raise ValueError
         except ValueError:
             return False
