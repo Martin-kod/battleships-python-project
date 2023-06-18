@@ -1,9 +1,11 @@
 from random import randint
 
+
 class Board:
     """
     Creating Board class to include properties like size, number of ships,
-    name, etc.
+    name, type, as well as a list of lists for the board and empty lists for
+    guesses and ships.
     """
     def __init__(self, size, name, num_of_ships, type):
         self.size = size
@@ -13,13 +15,25 @@ class Board:
         self.board = [["." for x in range(size)] for y in range(size)]
         self.guesses = []
         self.ships = []
-        
+
+
 scores = {"player": 0, "computer": 0}
 
+
 def random_size(size):
+    """
+    Creates a random number between 0 and size, which will later be set to 5
+    """
     return randint(0, size - 1)
 
+
 def new_game():
+    """
+    Sets values to number of ships and size and briefs user how to start
+    and play the game. Creates two instances of the class Board and populates
+    these with ships by calling the function. Also calls function for playing
+    the game.
+    """
 
     size = 5
     num_of_ships = 4
@@ -38,11 +52,17 @@ def new_game():
     populate_board(computer_board)
     populate_board(player_board)
 
-
     play_game(player_board, computer_board)
 
+
 def play_game(player_board, computer_board):
-    
+    """
+    The main game function which renders the game boards, calls the
+    make_guess and validate_coordinate functions in order to use these
+    in the game. Increases scores and adds coordinate values to guesses.
+    The function is a loop so as to continue playing with a prompt option
+    to break.
+    """
     play_again = True
     while play_again:
 
@@ -54,7 +74,7 @@ def play_game(player_board, computer_board):
 
         for i in computer_board.guesses:
             player_board.board[i[0]][i[1]] = "X"
-            
+
         for i in player_board.board:
             print(*i, sep=" ")
 
@@ -66,14 +86,14 @@ def play_game(player_board, computer_board):
         print("\n")
 
         player_guess_validation = False
-        while player_guess_validation == False:
+        while player_guess_validation is False:
             player_guess = make_guess(player_board)
             x, y = player_guess
             player_guess_validation = validate_coordinates(x, y, player_board)
         player_board.guesses.append([int(x), int(y)])
 
         computer_guess_validation = False
-        while computer_guess_validation == False:
+        while computer_guess_validation is False:
             computer_guess = make_guess(computer_board)
             x, y = computer_guess
             computer_guess_validation = validate_coordinates(x, y, computer_board)
@@ -87,9 +107,9 @@ def play_game(player_board, computer_board):
                 print(f"You hit one of the computer's battleships!")
                 player_score = True
 
-        if player_score == False:
+        if player_score is False:
             print("You missed.")
-        
+
         computer_score = False
         print(f"Computer guessed: {computer_board.guesses[-1]}")
         for i in range(len(player_board.ships)):
@@ -98,7 +118,7 @@ def play_game(player_board, computer_board):
                 print(f"Computer hit one of your battleships!")
                 computer_score = True
 
-        if computer_score == False:
+        if computer_score is False:
             print("Computer missed.")
 
         print("-" * 35)
@@ -107,8 +127,9 @@ def play_game(player_board, computer_board):
         print("-" * 35)
 
         play_again = False
-        while play_again == False:
-            key_for_continue = input("Do you want to play another round? y/n\n")
+        while play_again is False:
+            key_for_continue = input(
+                "Do you want to play another round? y/n\n")
 
             try:
                 if key_for_continue == "n":
@@ -117,23 +138,26 @@ def play_game(player_board, computer_board):
                 elif key_for_continue == "y":
                     quit_game = False
                     play_again = True
-            except:
+            except ValueError:
                 print("That was not one of the options!")
 
         if scores["computer"] > 3:
             print("Sorry, you lost")
             quit_game = True
-        
+
         if scores["player"] > 3:
             print("Congratulations! You won!!")
             quit_game = True
 
-        if quit_game == True:
+        if quit_game is True:
             print("Thanks for playing!")
             break
 
+
 def populate_board(board):
-    
+    """
+    Random positioning of the battleships.
+    """
     while len(board.ships) < board.num_of_ships:
         try:
             x = random_size(board.size)
@@ -144,12 +168,15 @@ def populate_board(board):
         except StopIteration:
             continue
         board.ships.append([x, y])
-    
+
 
 def make_guess(board):
-
+    """
+    Making guesses through prompts as user and
+    random function for computer.
+    """
     if board.type == "player":
-        y = input('Guess row\n')
+        x = input('Guess row\n')
         x = input('Guess column\n')
         return (x, y)
 
@@ -160,12 +187,16 @@ def make_guess(board):
 
 
 def validate_coordinates(x, y, board):
-    
+    """
+    Validates guesses through exception handling.
+    Gives printed statements to guide the user.
+    """
+
     if board.type == "player":
         try:
             int_x = int(x)
             int_y = int(y)
-        except:
+        except ValueError:
             print("Value has to be a number!")
             return False
         try:
@@ -178,12 +209,12 @@ def validate_coordinates(x, y, board):
             return False
         try:
             for i in range(len(board.guesses)):
-                    if board.guesses[i] == [int_x, int_y]:
-                        raise ValueError
+                if board.guesses[i] == [int_x, int_y]:
+                    raise ValueError
         except ValueError:
             print("Cannot guess the same coordinates twice!")
             return False
-        
+
         return True
     else:
         pass
@@ -191,12 +222,11 @@ def validate_coordinates(x, y, board):
     if board.type == "computer":
         try:
             for i in range(len(board.guesses)):
-                    if board.guesses[i] == [x, y]:
-                        raise ValueError
+                if board.guesses[i] == [x, y]:
+                    raise ValueError
         except ValueError:
             return False
         return True
 
+
 new_game()
-
-
