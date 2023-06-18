@@ -54,13 +54,6 @@ def play_game(player_board, computer_board):
 
         for i in computer_board.guesses:
             player_board.board[i[0]][i[1]] = "X"
-
-        # for i in computer_board.guesses:
-        #     if 
-        #     player_board.ships[i[0]][i[1]] = "*"
-
-        # for i in player_board.guesses:
-        #     computer_board.board[i[0]][i[1]] = "*"
             
         for i in player_board.board:
             print(*i, sep=" ")
@@ -112,10 +105,10 @@ def play_game(player_board, computer_board):
         print("The scores are:")
         print(f"{player_board.name}: {scores['player']}, Computer: {scores['computer']}")
         print("-" * 35)
-        
+
         play_again = False
         while play_again == False:
-            key_for_continue = input("Do you want to play another round? y/n")
+            key_for_continue = input("Do you want to play another round? y/n\n")
 
             try:
                 if key_for_continue == "n":
