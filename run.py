@@ -44,7 +44,9 @@ def play_game(player_board, computer_board):
         
     for i in player_board.board:
         print(*i, sep=" ")
+
     print("-" * 35)
+
     for i in computer_board.board:
         print(*i, sep=" ")
 
@@ -56,7 +58,6 @@ def play_game(player_board, computer_board):
         x, y = player_guess
         player_guess_validation = validate_coordinates(x, y, player_board)
     player_board.guesses.append([int(x), int(y)])
-    print(player_board.guesses)
 
     computer_guess_validation = False
     while computer_guess_validation == False:
@@ -64,10 +65,35 @@ def play_game(player_board, computer_board):
         x, y = computer_guess
         computer_guess_validation = validate_coordinates(x, y, computer_board)
     computer_board.guesses.append([x, y])
-    print(computer_board.guesses)
-    # for i in range(len(board.ships)):
-    #     if board.ships[i] == [x, y]:
+
+    player_score = False
+    print(f"You guessed: {player_board.guesses[-1]}")
+    for i in range(len(computer_board.ships)):
+        if computer_board.ships[i] == player_board.guesses[-1]:
+            scores["player"] += 1
+            print(f"You hit one of the computer's battleships!")
+            player_score = True
+
+    if player_score == False:
+        print("You missed.")
     
+    computer_score = False
+    print(f"Computer guessed: {computer_board.guesses[-1]}")
+    for i in range(len(player_board.ships)):
+        if player_board.ships[i] == computer_board.guesses[-1]:
+            scores["computer"] += 1
+            print(f"Computer hit one of your battleships!")
+            computer_score = True
+
+    if computer_score == False:
+        print("Computer missed.")
+
+    print("-" * 35)
+    print("The scores are:")
+    print(f"{player_board.name}: {scores['player']}, Computer: {scores['computer']}")
+    print("-" * 35)
+    
+
 
 def populate_board(board):
     
@@ -89,15 +115,11 @@ def make_guess(board):
         y = input('Guess row\n')
         x = input('Guess column\n')
         return (x, y)
-    else:
-        pass
 
     if board.type == "computer":
         x = random_size(board.size)
         y = random_size(board.size)
         return (x, y)
-    else:
-        pass
 
 
 def validate_coordinates(x, y, board):
