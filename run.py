@@ -48,12 +48,16 @@ def play_game(player_board, computer_board):
     for i in computer_board.board:
         print(*i, sep=" ")
 
+    print("\n")
+
+    guess_validation = False
+    while guess_validation == False:
+
+        player_guess = make_guess(player_board)
+        x, y = player_guess
+        guess_validation = validate_coordinates(x, y, player_board)
     
-    player_guess = make_guess(player_board)
-    x, y = player_guess
-    validate_coordinates(x, y, player_board)
-    
-    
+    print("You made a correct guess!")
     make_guess(computer_board)
     
 
@@ -74,8 +78,8 @@ def populate_board(board):
 
 def make_guess(board):
     if board.type == "player":
-        y = input('Enter the row which you want to fire next\n')
-        x = input('Enter the column which you want to fire next\n')
+        y = input('Guess row\n')
+        x = input('Guess column\n')
         return (x, y)
     else:
         pass
@@ -101,8 +105,15 @@ def validate_coordinates(x, y, board):
     except ValueError as e:
         print(e)
         return False
+    try:
+        for i in range(len(board.guesses)):
+                if board.guesses[i] == [int_x, int_y]:
+                    raise ValueError
+    except ValueError:
+        print("Cannot guess the same coordinates twice!")
+        return False
     
-
+    return True
 
     
 
