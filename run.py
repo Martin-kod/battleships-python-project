@@ -133,30 +133,32 @@ def play_game(player_board, computer_board):
         print(f"{player_board.name}: {scores['player']}, Computer: {scores['computer']}")
         print("-" * 35)
 
-        play_again = False
-        while play_again is False:
+        quit_game = False
+        game_continue = False
+        while game_continue is False:
             key_for_continue = input(
                 "Do you want to continue? y/n\n")
-
             try:
                 if key_for_continue == "n":
                     quit_game = True
                     break
                 elif key_for_continue == "y":
-                    quit_game = False
-                    play_again = True
+                    game_continue = True
             except ValueError:
                 print("That was not one of the options!")
 
         if scores["computer"] and scores["player"] > 3:
             print("It's a tie!")
-            quit_game = True
+            print("Thanks for playing!")
+            break
         elif scores["computer"] > 3:
             print("Sorry, you lost")
-            quit_game = True
+            print("Thanks for playing!")
+            break
         elif scores["player"] > 3:
             print("Congratulations! You won!!")
-            quit_game = True
+            print("Thanks for playing!")
+            break
 
         if quit_game is True:
             print("Thanks for playing!")
