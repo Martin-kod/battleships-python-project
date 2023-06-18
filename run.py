@@ -44,8 +44,12 @@ def play_game(player, computer):
         
     for x in player.board:
         print(*x, sep=" ")
+    print("-" * 35)
+    for x in computer.board:
+        print(*x, sep=" ")
         
-    
+    make_guess(player)
+    make_guess(computer)
     
 
 def populate_board(board):
@@ -61,14 +65,16 @@ def populate_board(board):
             continue
         board.ships.append([x, y])
     
-    
-    
-        
-    
 
 
-def make_guess():
-    pass
+def make_guess(board):
+    if board.type == "player":
+        player_guess_y = input('Enter the row which you want to fire your next cannon shot\n')
+        player_guess_x = input('Enter the column which you want to fire your next cannon shot\n')
+        print(player_guess_x, player_guess_y)
+    else:
+        pass
+
 
 def validate_coordinates(x, y):
     pass
