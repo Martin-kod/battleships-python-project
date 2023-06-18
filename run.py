@@ -37,19 +37,19 @@ def new_game():
 
     play_game(player_board, computer_board)
 
-def play_game(player, computer):
+def play_game(player_board, computer_board):
     
-    for i in player.ships:
-        player.board[i[0]][i[1]] = "@"
+    for i in player_board.ships:
+        player_board.board[i[0]][i[1]] = "@"
         
-    for x in player.board:
-        print(*x, sep=" ")
+    for i in player_board.board:
+        print(*i, sep=" ")
     print("-" * 35)
-    for x in computer.board:
-        print(*x, sep=" ")
+    for i in computer_board.board:
+        print(*i, sep=" ")
         
-    make_guess(player)
-    make_guess(computer)
+    make_guess(player_board)
+    make_guess(computer_board)
     
 
 def populate_board(board):
@@ -69,15 +69,34 @@ def populate_board(board):
 
 def make_guess(board):
     if board.type == "player":
-        player_guess_y = input('Enter the row which you want to fire your next cannon shot\n')
-        player_guess_x = input('Enter the column which you want to fire your next cannon shot\n')
-        print(player_guess_x, player_guess_y)
+        y = input('Enter the row which you want to fire next\n')
+        x = input('Enter the column which you want to fire next\n')
+        validate_coordinates(x, y, board)
     else:
         pass
+    # if board.type == "computer":
+    #     x = random_size(board.size)
+    #     y = random_size(board.size)
+        
+    # else:
+    #     pass
 
-
-def validate_coordinates(x, y):
-    pass
+def validate_coordinates(x, y, board):
+    try:
+        int_x = int(x)
+        int_y = int(y)
+    except:
+        print("Value has to be a number!")
+        return False
+    try:
+        if int_x > 4 or int_y > 4:
+            raise ValueError(
+                "Too much! Values can't be larger than 4!"
+            )
+    except ValueError as e:
+        print(e)
+        return False
+    
 
 
     
