@@ -47,8 +47,13 @@ def play_game(player_board, computer_board):
     print("-" * 35)
     for i in computer_board.board:
         print(*i, sep=" ")
-        
-    make_guess(player_board)
+
+    
+    player_guess = make_guess(player_board)
+    x, y = player_guess
+    validate_coordinates(x, y, player_board)
+    
+    
     make_guess(computer_board)
     
 
@@ -71,7 +76,7 @@ def make_guess(board):
     if board.type == "player":
         y = input('Enter the row which you want to fire next\n')
         x = input('Enter the column which you want to fire next\n')
-        validate_coordinates(x, y, board)
+        return (x, y)
     else:
         pass
     # if board.type == "computer":
@@ -89,7 +94,7 @@ def validate_coordinates(x, y, board):
         print("Value has to be a number!")
         return False
     try:
-        if int_x > 4 or int_y > 4:
+        if int_x >= board.size or int_y >= board.size:
             raise ValueError(
                 "Too much! Values can't be larger than 4!"
             )
