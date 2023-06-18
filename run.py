@@ -55,13 +55,18 @@ def play_game(player_board, computer_board):
         player_guess = make_guess(player_board)
         x, y = player_guess
         player_guess_validation = validate_coordinates(x, y, player_board)
-    
+    player_board.guesses.append([int(x), int(y)])
+    print(player_board.guesses)
+
     computer_guess_validation = False
     while computer_guess_validation == False:
         computer_guess = make_guess(computer_board)
         x, y = computer_guess
         computer_guess_validation = validate_coordinates(x, y, computer_board)
-    
+    computer_board.guesses.append([x, y])
+    print(computer_board.guesses)
+    # for i in range(len(board.ships)):
+    #     if board.ships[i] == [x, y]:
     
 
 def populate_board(board):
