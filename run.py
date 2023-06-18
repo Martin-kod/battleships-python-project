@@ -75,13 +75,20 @@ def play_game(player_board, computer_board):
         for i in computer_board.guesses:
             player_board.board[i[0]][i[1]] = "X"
 
+        print("-" * 35)
+
+        print(f"{player_board.name}'s board")
+
         for i in player_board.board:
             print(*i, sep=" ")
 
         print("-" * 35)
+        print("Computer's board")
 
         for i in computer_board.board:
             print(*i, sep=" ")
+
+        print("-" * 35)
 
         print("\n")
 
@@ -129,7 +136,7 @@ def play_game(player_board, computer_board):
         play_again = False
         while play_again is False:
             key_for_continue = input(
-                "Do you want to play another round? y/n\n")
+                "Do you want to continue? y/n\n")
 
             try:
                 if key_for_continue == "n":
@@ -141,11 +148,13 @@ def play_game(player_board, computer_board):
             except ValueError:
                 print("That was not one of the options!")
 
-        if scores["computer"] > 3:
+        if scores["computer"] and scores["player"] > 3:
+            print("It's a tie!")
+            quit_game = True
+        elif scores["computer"] > 3:
             print("Sorry, you lost")
             quit_game = True
-
-        if scores["player"] > 3:
+        elif scores["player"] > 3:
             print("Congratulations! You won!!")
             quit_game = True
 
@@ -177,7 +186,7 @@ def make_guess(board):
     """
     if board.type == "player":
         x = input('Guess row\n')
-        x = input('Guess column\n')
+        y = input('Guess column\n')
         return (x, y)
 
     if board.type == "computer":
