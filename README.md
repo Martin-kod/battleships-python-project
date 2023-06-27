@@ -1,7 +1,32 @@
+# Battleships
 
+The popular battleships game is making a comeback as a text based version completely made up of Python. Battleships is a simple but entertaining game simulating a naval battle where you use artillery to bombard coordinates at sea to try and hit enemy battleships. Due to its simple nature the game can be enjoyed by people of all ages and can be a good way to relax after a period of work without using too much of the user's energy and attention. Many games can be addictive and draining but this scaled down version gives the user a dosage of fun without the negative side effects. Battleships can also be used for educational purposes to learn about coordinates.
 
+## Features
 
+### The Start Up 
 
+When you start the program you are welcomed with some useful information about the game, namely the dimensions and location of the 0, 0 position. The user is also prompted to enter their name.
+
+The game consists of a game board with 5x5 squares filled with 4 pieces of 1x1 ships. The 0, 0 position is at the top left hand corner of the board.
+
+![Start up](assets/images/start-up.png)
+
+### The Set Up
+
+Once you have entered your name the game will automatically and randomly fill the player- as well as the computer board with ships and renders both boards to the user. The player ships will be visible while the computer's ships will be hidden.
+
+![Board set up](assets/images/set-up.png)
+
+### Guess and validation
+
+The player is then asked to enter two numbers, one guess for the row and one guess for the column to where the player guesses the computer's ships are hiding. In order for the game to work the guesses have to be validated in accordance with the parameters of the game, which are that it needs to be a whole number between 0-4, and not the same coordinates as one the player has made before. Once a valid guess has been made the turn ends with scoring. 
+
+![Guesses and validation](assets/images/validation.png)
+
+### Scoring
+
+The computer guess is a randomized coordinate and together with the player guess they are measured against the ships on each of the two boards. If the coordinates of the guess corresponds with the coordinates of a ship you gain one point. 
 
 ![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
 
