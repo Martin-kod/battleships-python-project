@@ -105,7 +105,6 @@ def play_game(player_board, computer_board):
         print(f"You guessed: {player_board.guesses[-1]}")
         for i in range(len(computer_board.ships)):
             computer_ship = computer_board.ships[i]
-            print(computer_ship)
             if computer_ship == player_board.guesses[-1]:
                 computer_board.board[computer_ship[0]][computer_ship[1]] = "*"
                 scores["player"] += 1
