@@ -136,6 +136,19 @@ def play_game(player_board, computer_board):
         print(f"{player_board.name}: {scores['player']}, Computer: {scores['computer']}")
         print("-" * 35)
 
+        if scores["computer"] > 3 and scores["player"] > 3:
+            print("It's a tie!")
+            print("Thanks for playing!")
+            break
+        elif scores["computer"] > 3:
+            print("Sorry, you lost")
+            print("Thanks for playing!")
+            break
+        elif scores["player"] > 3:
+            print("Congratulations! You won!!")
+            print("Thanks for playing!")
+            break
+
         quit_game = False
         game_continue = False
         while game_continue is False:
@@ -149,19 +162,6 @@ def play_game(player_board, computer_board):
                     game_continue = True
             except ValueError:
                 print("That was not one of the options!")
-
-        if scores["computer"] > 3 and scores["player"] > 3:
-            print("It's a tie!")
-            print("Thanks for playing!")
-            break
-        elif scores["computer"] > 3:
-            print("Sorry, you lost")
-            print("Thanks for playing!")
-            break
-        elif scores["player"] > 3:
-            print("Congratulations! You won!!")
-            print("Thanks for playing!")
-            break
 
         if quit_game is True:
             print("Thanks for playing!")
