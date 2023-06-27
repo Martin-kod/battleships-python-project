@@ -70,12 +70,6 @@ def play_game(player_board, computer_board):
     play_again = True
     while play_again:
 
-        # for i in player_board.guesses:
-        #     computer_board.board[i[0]][i[1]] = "X"
-
-        # for i in computer_board.guesses:
-        #     player_board.board[i[0]][i[1]] = "X"
-
         print("-" * 35)
 
         print(f"{player_board.name}'s board")
@@ -111,6 +105,7 @@ def play_game(player_board, computer_board):
         print(f"You guessed: {player_board.guesses[-1]}")
         for i in range(len(computer_board.ships)):
             computer_ship = computer_board.ships[i]
+            print(computer_ship)
             if computer_ship == player_board.guesses[-1]:
                 computer_board.board[computer_ship[0]][computer_ship[1]] = "*"
                 scores["player"] += 1
@@ -119,8 +114,8 @@ def play_game(player_board, computer_board):
 
         if player_score is False:
             print("You missed.")
-            latest_guess = computer_board.guesses[-1]
-            player_board.board[latest_guess[0]][latest_guess[1]] = "X"
+            latest_guess = player_board.guesses[-1]
+            computer_board.board[latest_guess[0]][latest_guess[1]] = "X"
 
         computer_score = False
         print(f"Computer guessed: {computer_board.guesses[-1]}")
@@ -134,8 +129,8 @@ def play_game(player_board, computer_board):
 
         if computer_score is False:
             print("Computer missed.")
-            latest_guess = player_board.guesses[-1]
-            computer_board.board[latest_guess[0]][latest_guess[1]] = "X"
+            latest_guess = computer_board.guesses[-1]
+            player_board.board[latest_guess[0]][latest_guess[1]] = "X"
 
         print("-" * 35)
         print("The scores are:")
@@ -156,7 +151,7 @@ def play_game(player_board, computer_board):
             except ValueError:
                 print("That was not one of the options!")
 
-        if scores["computer"] and scores["player"] > 3:
+        if scores["computer"] > 3 and scores["player"] > 3:
             print("It's a tie!")
             print("Thanks for playing!")
             break
