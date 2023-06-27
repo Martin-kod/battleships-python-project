@@ -42,6 +42,7 @@ def new_game():
     print("-" * 35)
     print("Welcome! Let's play some Battleships!!\n")
     print("Board size: 5. Number of ships: 4")
+    print("Ship size: 1")
     print("Top left corner is row: 0, col: 0")
     print("-" * 35)
     player_name = input("Enter your name: \n")
@@ -63,17 +64,11 @@ def play_game(player_board, computer_board):
     The function is a loop so as to continue playing with a prompt option
     to break.
     """
+    for i in player_board.ships:
+        player_board.board[i[0]][i[1]] = "@"
+
     play_again = True
     while play_again:
-
-        for i in player_board.guesses:
-            computer_board.board[i[0]][i[1]] = "X"
-
-        for i in player_board.ships:
-            player_board.board[i[0]][i[1]] = "@"
-
-        for i in computer_board.guesses:
-            player_board.board[i[0]][i[1]] = "X"
 
         print("-" * 35)
 
@@ -109,24 +104,33 @@ def play_game(player_board, computer_board):
         player_score = False
         print(f"You guessed: {player_board.guesses[-1]}")
         for i in range(len(computer_board.ships)):
-            if computer_board.ships[i] == player_board.guesses[-1]:
+            computer_ship = computer_board.ships[i]
+            print(computer_ship)
+            if computer_ship == player_board.guesses[-1]:
+                computer_board.board[computer_ship[0]][computer_ship[1]] = "*"
                 scores["player"] += 1
                 print(f"You hit one of the computer's battleships!")
                 player_score = True
 
         if player_score is False:
             print("You missed.")
+            latest_guess = player_board.guesses[-1]
+            computer_board.board[latest_guess[0]][latest_guess[1]] = "X"
 
         computer_score = False
         print(f"Computer guessed: {computer_board.guesses[-1]}")
         for i in range(len(player_board.ships)):
-            if player_board.ships[i] == computer_board.guesses[-1]:
+            player_ship = player_board.ships[i]
+            if player_ship == computer_board.guesses[-1]:
+                player_board.board[player_ship[0]][player_ship[1]] = "*"
                 scores["computer"] += 1
                 print(f"Computer hit one of your battleships!")
                 computer_score = True
 
         if computer_score is False:
             print("Computer missed.")
+            latest_guess = computer_board.guesses[-1]
+            player_board.board[latest_guess[0]][latest_guess[1]] = "X"
 
         print("-" * 35)
         print("The scores are:")
@@ -137,7 +141,7 @@ def play_game(player_board, computer_board):
         game_continue = False
         while game_continue is False:
             key_for_continue = input(
-                "Do you want to continue? y/n\n")
+                "Do you want to continue? y/n \n")
             try:
                 if key_for_continue == "n":
                     quit_game = True
@@ -147,7 +151,7 @@ def play_game(player_board, computer_board):
             except ValueError:
                 print("That was not one of the options!")
 
-        if scores["computer"] and scores["player"] > 3:
+        if scores["computer"] > 3 and scores["player"] > 3:
             print("It's a tie!")
             print("Thanks for playing!")
             break
