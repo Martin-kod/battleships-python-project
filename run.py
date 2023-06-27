@@ -6,6 +6,8 @@ class Board:
     Creating Board class to include properties like size, number of ships,
     name, type, as well as a list of lists for the board and empty lists for
     guesses and ships.
+
+    Code in class written by Code Institute Battleships tutorial.
     """
     def __init__(self, size, name, num_of_ships, type):
         self.size = size
@@ -23,6 +25,8 @@ scores = {"player": 0, "computer": 0}
 def random_size(size):
     """
     Creates a random number between 0 and size, which will later be set to 5
+
+    Code in function written by Code Institute Battleships tutorial.
     """
     return randint(0, size - 1)
 
@@ -33,6 +37,8 @@ def new_game():
     and play the game. Creates two instances of the class Board and populates
     these with ships by calling the function. Also calls function for playing
     the game.
+
+    Code in function written by Code Institute Battleships tutorial.
     """
 
     size = 5
@@ -173,14 +179,11 @@ def populate_board(board):
     Random positioning of the battleships.
     """
     while len(board.ships) < board.num_of_ships:
-        try:
-            x = random_size(board.size)
-            y = random_size(board.size)
-            for i in range(len(board.ships)):
-                if board.ships[i] == [x, y]:
-                    raise StopIteration
-        except StopIteration:
-            continue
+        x = random_size(board.size)
+        y = random_size(board.size)
+        for i in range(len(board.ships)):
+            if board.ships[i] == [x, y]:
+                continue
         board.ships.append([x, y])
 
 
