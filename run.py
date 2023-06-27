@@ -179,11 +179,14 @@ def populate_board(board):
     Random positioning of the battleships.
     """
     while len(board.ships) < board.num_of_ships:
-        x = random_size(board.size)
-        y = random_size(board.size)
-        for i in range(len(board.ships)):
-            if board.ships[i] == [x, y]:
-                continue
+        try:
+            x = random_size(board.size)
+            y = random_size(board.size)
+            for i in range(len(board.ships)):
+                if board.ships[i] == [x, y]:
+                    raise StopIteration
+        except StopIteration:
+            continue
         board.ships.append([x, y])
 
 
