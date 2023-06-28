@@ -88,6 +88,8 @@ Steps for deployment:
 4. Access repository from GitHub
 5. Click deploy
 
+You can find the deployed version [here](https://martin-battleships-c08f67c1bf63.herokuapp.com/)
+
 ## Credits
 
 - Code Institute Mock Terminal for Heroku
